@@ -1,0 +1,49 @@
+calcPressureDiffusionTerm
+{
+    name            calcPressureDiffusionTerm;
+    type            coded;
+    libs            ("libutilityFunctionObjects.so");
+    enabled         true;
+    log             true;
+    timeStart       $startTimeFieldAverage;
+    timeEnd         $endTime;
+    executeControl  adjustableRunTime;
+    executeInterval $writeInterval;
+    writeControl    adjustableRunTime;
+    writeInterval   $writeInterval;
+
+    codeOptions     #{ -I$(LIB_SRC)/OpenFOAM/lnInclude -I$(LIB_SRC)/finiteVolume/lnInclude #};
+
+    codeWrite
+    #{
+        #include "fvCFD.H"
+
+        // Field names
+        const word uMeanName  = "UMean";
+        const word pMeanName  = "pMean";
+        const word upMeanName = "UpMean";
+        const word outputDpij  = "Dp_ij_RSTE";
+       
+        Info<< "Calculating Pressure Diffusion Term for FO: " << this->name() << " at t=" << mesh().time().timeName() << endl;
+
+        // Lookup Optional <u'p'>
+
+        const volVectorField& UMean = mesh().lookupObject<volVectorField>(uMeanName);
+        const volScalarField& pMean = mesh().lookupObject<volScalarField>(pMeanName);
+        const volVectorField& UpMean = mesh().lookupObject<volVectorField>(upMeanName);
+
+        volVectorField UPrimePPrimeMean (IOobject("UPrimePPrimeMean", mesh().time().timeName(), mesh(), IOobject::NO_READ, IOobject::NO_WRITE),
+                                         UpMean - (UMean * pMean));
+        
+        volTensorField gradUPrimePPrimeMean = fvc::grad(UPrimePPrimeMean); 
+        
+        volSymmTensorField Dp_ij_RSTE (IOobject(outputDpij, mesh().time().timeName(), mesh(), IOobject::NO_READ, IOobject::AUTO_WRITE),
+                                       -2.0 * symm(gradUPrimePPrimeMean));
+        
+        Dp_ij_RSTE.correctBoundaryConditions();
+        Dp_ij_RSTE.write();
+            
+        Info<< "  Written field: " << Dp_ij_RSTE.name() << endl;
+        Info<< endl;
+    #};
+}

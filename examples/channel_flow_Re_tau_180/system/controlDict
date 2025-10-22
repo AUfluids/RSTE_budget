@@ -1,0 +1,208 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2312                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     pimpleFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1000;
+
+deltaT          0.0001;
+
+adjustTimeStep	yes;
+
+maxCo		0.5;
+
+startTimeFieldAverage    151;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1;
+
+purgeWrite      1;
+
+writeFormat     ascii;
+
+writePrecision  8;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   8;
+
+runTimeModifiable true;
+
+OptimisationSwitches
+{
+    fileModificationSkew 10; // Default is often 1 or 2, try increasing to 5, 10, or even 20
+    // maxFileModificationPolls 100; // Default is often 50, you can also try increasing this
+}
+
+functions
+{
+
+    // Importing functions for calculating Reynolds stress transport budget
+    #include "calcRSTEcode/auxiliaryFunctionsRSTE"
+    #include "calcRSTEcode/fieldAverageRSTE" 
+    #include "calcRSTEcode/calcConvection"     
+    #include "calcRSTEcode/calcProduction"
+    #include "calcRSTEcode/calcTurbulentTransport"
+    #include "calcRSTEcode/calcPressureDiffusion"
+    #include "calcRSTEcode/calcViscousDiffusion"
+    #include "calcRSTEcode/calcPressureStrain"
+    #include "calcRSTEcode/calcDissipation"
+    #include "calcRSTEcode/calcSGS"
+
+    // ============================================================ //
+    //     Additional functions beyond RSTE budget functions.       //
+    // ============================================================ //
+
+    fieldAverageAdditional
+    {
+        type            fieldAverage;
+        libs            (fieldFunctionObjects);    
+        fields
+        (
+            wallShearStress
+            {
+                mean        yes;
+                prime2Mean  no;
+                base        time;
+            }
+            yPlus
+            {
+                mean        yes;
+                prime2Mean  no;
+                base        time;
+            }
+            turbulenceProperties:R
+            {
+                mean        yes;
+                prime2Mean  no;
+                base        time;
+            }
+        );
+    
+        restartOnRestart    false;
+        restartOnOutput     false;
+        periodicRestart     false;
+        restartPeriod       0;
+    
+        region          region0;
+        enabled         true;
+        log             true;
+        timeStart       $startTimeFieldAverage;
+        timeEnd         $endTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    adjustableRunTime;
+        writeInterval   $writeInterval;
+    }
+
+    wallShearStress
+    {
+        type            wallShearStress;
+        libs            ( "libfieldFunctionObjects.so" );
+        region          region0;
+        enabled         true;
+        log             true;
+        timeStart       $startTime;
+        timeEnd         $endTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    adjustableRunTime;
+        writeInterval   $writeInterval;
+    }
+
+    yPlus
+    {
+        type            yPlus;
+        libs            ( "libfieldFunctionObjects.so" );
+        region          region0;
+        enabled         true;
+        log             true;
+        timeStart       $startTime;
+        timeEnd         $endTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    adjustableRunTime;
+        writeInterval   $writeInterval;
+    }
+
+    surfaceFieldValue
+    {
+	type            surfaceFieldValue;
+	libs            (fieldFunctionObjects);	
+	fields          (wallShearStress);
+	operation       average;
+	regionType      patch;
+        name            bottomWall;	
+        writeFields     false;
+	region          region0;
+	enabled         true;
+	log             true;
+	timeStart       $startTime;
+	timeEnd         $endTime;
+	executeControl  timeStep;
+	executeInterval 1;
+	writeControl    adjustableRunTime;
+	writeInterval   0.02;
+    }
+
+    velProbe
+    {
+        type            probes;
+        libs            (sampling);
+        fields          (U);
+        enabled         true;
+        log             true;
+        timeStart       $startTime;
+        timeEnd         $endTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    adjustableRunTime;
+        writeInterval   0.02;
+        probeLocations
+        (
+            (0.126 0.03 0)
+            (0.126 0.01 0)
+        );
+    }    
+
+    turbulenceFields
+    {
+        type            turbulenceFields;
+        libs            (fieldFunctionObjects);
+        field           R;
+        region          region0;
+        enabled         true;
+        log             true;
+        timeStart       $startTime;
+        timeEnd         $endTime;
+        executeControl  timeStep;
+        executeInterval 1;
+        writeControl    adjustableRunTime;
+        writeInterval   $writeInterval;
+    }
+
+}
+
+// ************************************************************************* //

@@ -1,0 +1,280 @@
+/*
+##########################################################################################
+
+General Information:
+    This script is part of the "NAME of RSTE library" library... general info...
+
+##########################################################################################
+
+Script Information:
+    This script containts the fieldAverage functions used for the "NAME of RSTE library".
+
+    Two fieldAverage instances are used:
+        - fieldAverageRSTE_write:      This contains fields which are written out.
+        - fieldAverageRSTE_dont_write: This contains fields which are not written out.
+
+    Items can be moved from one fieldAverage to the other, no items can be removed,
+    and any dublications between the twi fieldAverage should also be avoided.        
+
+##########################################################################################
+*/
+
+fieldAverageRSTE_write
+{
+    type             fieldAverage;
+    libs             (fieldFunctionObjects);
+    region           region0;
+    enabled          true;
+    log              true;
+    timeStart        $startTimeFieldAverage;
+    timeEnd          $endTime;
+    executeControl   timeStep;
+    executeInterval  1;
+    writeControl     adjustableRunTime;
+    writeInterval    $writeInterval;
+    restartOnRestart false;
+    restartOnOutput  false;
+    periodicRestart  false;
+    restartPeriod    0;
+
+    fields
+    (
+        U
+        {
+            mean        yes;
+            prime2Mean  yes;
+            base        time;           
+        }
+        p
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+    );
+}
+
+fieldAverageRSTE_dont_write
+{
+    type            fieldAverage;
+    libs            (fieldFunctionObjects);
+    region          region0;
+    enabled         true;
+    log             true;
+    timeStart       $startTimeFieldAverage;
+    timeEnd         $endTime;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl        none;
+    restartOnRestart    false;
+    restartOnOutput     false;
+    periodicRestart     false;
+    restartPeriod       0;
+    
+    fields
+    (
+        // For pressure strain term
+        pGradU
+        {
+            mean        yes;     
+            prime2Mean  no;      
+            base        time;
+        }        
+        // Velocity pressure product for calculating <u_i'p'> in the pressure diffusion term
+        Up
+        {
+            mean        yes;     
+            prime2Mean  no;      
+            base        time;
+        }
+        // Velocity triple products for calculating <u_i'u_j'u_k'> in the turbulent transport term
+        UxUxUx
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UxUxUy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UxUxUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UxUyUy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UxUzUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UyUyUy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UyUyUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UyUzUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UzUzUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        UxUyUz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }        
+        // Products of velocity gradients for calculating <du_i'/dx_k * du_j'/dx_k> in dissipation term
+        gradU
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }    
+        gradUxxgradUxx
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        gradUyxgradUyx
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }    
+        gradUzxgradUzx
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }   
+        gradUxxgradUxy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }   
+        gradUyxgradUyy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }    
+        gradUzxgradUzy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }    
+        gradUxxgradUxz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }   
+        gradUyxgradUyz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }    
+        gradUzxgradUzz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        } 
+        gradUxygradUxy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }  
+        gradUyygradUyy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        gradUzygradUzy
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }  
+        gradUxygradUxz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }  
+        gradUyygradUyz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }  
+        gradUzygradUzz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        } 
+        gradUxzgradUxz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        } 
+        gradUyzgradUyz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }  
+        gradUzzgradUzz
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }          
+        // Terms for calculating SGS contribution
+        divNutSij
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }
+        divNutSijU
+        {
+            mean        yes;
+            prime2Mean  no;
+            base        time;
+        }        
+    );
+}

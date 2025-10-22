@@ -1,0 +1,56 @@
+#!/bin/sh
+
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+# source $WM_PROJECT_DIR/bin/tools/RunFunctions
+#------------------------------------------------------------------------------
+
+# settings
+
+# flag to enable computations in parallel mode
+parallel=true
+# number of processors to use in parallel mode
+processors=32
+
+#------------------------------------------------------------------------------
+
+restore0Dir
+
+touch case.foam
+
+if [! -d logs]
+then
+    mkdir logs
+fi
+
+if [ ! -d constant/polyMesh ]
+then
+    runApplication blockMesh
+    runApplication renumberMesh -overwrite -constant
+    runApplication checkMesh -allTopology -allGeometry -constant
+fi
+
+#------------------------------------------------------------------------------
+
+echo
+echo "---------- Updating solver parameters ----------"
+echo
+
+python ./pythonScripts/paramSetup.py
+
+# ------------------------------------------------------------------------------
+
+if [ "$parallel" = true ]
+then
+    echo
+    echo "---------- Decomposing case ----------"
+    echo
+
+    runApplication decomposePar -cellDist
+    mpirun -np $processors pimpleFoam -parallel > logs/simulation.log
+else
+    runApplication $(getApplication)
+fi
+
+# ------------------------------------------------------------------------------
+

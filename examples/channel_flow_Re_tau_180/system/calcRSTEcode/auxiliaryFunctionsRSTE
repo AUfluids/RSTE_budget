@@ -1,0 +1,563 @@
+/*
+##########################################################################################
+
+General Information:
+    This script is part of the "NAME of RSTE library" library... general info...
+
+##########################################################################################
+
+Script Information:
+    This script containts auxiliary functions used for the "NAME of RSTE library".
+
+    The functions include:
+        - Functions for calculating velocity pressure product (Pressure Diffusion).
+        - Functions for calculating triple velocity products (Turbulent Transport).
+        - Functions for calculating products of velocity gradients (Dissipation).        
+
+##########################################################################################
+*/
+
+//--------------------------------------------------------------------------------//
+// Functions for the Pressure Diffusion Dp_ij
+//--------------------------------------------------------------------------------//
+
+Up
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (U p);
+    enabled         true;
+    log             false;
+    result          Up;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;              
+}
+
+//--------------------------------------------------------------------------------//
+// Functions for the Turbulent Transport T_ij
+//--------------------------------------------------------------------------------//
+
+Ucomp
+{
+    type            components;
+    libs            ("libfieldFunctionObjects.so");
+    field           U;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUxUx
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Ux Ux);
+    result          UxUxUx;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUxUy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Ux Uy);
+    result          UxUxUy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUxUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Ux Uz);
+    result          UxUxUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUyUy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Uy Uy);
+    result          UxUyUy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUyUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Uy Uz);
+    result          UxUyUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UxUzUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Ux Uz Uz);
+    result          UxUzUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UyUyUy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Uy Uy Uy);
+    result          UyUyUy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UyUyUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Uy Uy Uz);
+    result          UyUyUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UyUzUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Uy Uz Uz);
+    result          UyUzUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+UzUzUz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (Uz Uz Uz);
+    result          UzUzUz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+//--------------------------------------------------------------------------------//
+// Functions for the Dissipation Eps_ij
+//--------------------------------------------------------------------------------//
+
+gradU
+{
+    type            grad;
+    libs            ("libfieldFunctionObjects.so");
+    field           U;
+    result          gradU;
+    enabled         true;
+    log             true;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUcomps
+{
+    type            components;
+    libs            ("libfieldFunctionObjects.so");
+    field           gradU;
+    enabled         true;
+    log             true;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxxgradUxx
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxx gradUxx);
+    result          gradUxxgradUxx;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyxgradUyx
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyx gradUyx);
+    result          gradUyxgradUyx;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzxgradUzx
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzx gradUzx);
+    result          gradUzxgradUzx;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxxgradUxy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxx gradUxy);
+    result          gradUxxgradUxy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyxgradUyy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyx gradUyy);
+    result          gradUyxgradUyy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzxgradUzy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzx gradUzy);
+    result          gradUzxgradUzy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxxgradUxz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxx gradUxz);
+    result          gradUxxgradUxz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyxgradUyz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyx gradUyz);
+    result          gradUyxgradUyz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzxgradUzz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzx gradUzz);
+    result          gradUzxgradUzz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxygradUxy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxy gradUxy);
+    result          gradUxygradUxy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyygradUyy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyy gradUyy);
+    result          gradUyygradUyy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzygradUzy
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzy gradUzy);
+    result          gradUzygradUzy;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxygradUxz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxy gradUxz);
+    result          gradUxygradUxz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyygradUyz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyy gradUyz);
+    result          gradUyygradUyz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzygradUzz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzy gradUzz);
+    result          gradUzygradUzz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUxzgradUxz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUxz gradUxz);
+    result          gradUxzgradUxz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUyzgradUyz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUyz gradUyz);
+    result          gradUyzgradUyz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+gradUzzgradUzz
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (gradUzz gradUzz);
+    result          gradUzzgradUzz;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+//--------------------------------------------------------------------------------//
+// Functions for the Pressure strain Phi_ij
+//--------------------------------------------------------------------------------//
+
+pGradU
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (p gradU);
+    result          pGradU;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+//--------------------------------------------------------------------------------//
+// Functions for the SGS term sgs_ij
+//--------------------------------------------------------------------------------//
+
+turbulenceFields
+{
+    type            turbulenceFields;
+    libs            ("libfieldFunctionObjects.so");
+    fields          ( nut R );  
+    region          region0;
+    enabled         true;
+    log             true;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+nutGradU
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (nut gradU);
+    result          nutGradU;
+    enabled         true;
+    log             false;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}
+
+divNutSij
+{
+    name            divNutSij;
+    type            coded;
+    libs            ("libutilityFunctionObjects.so");
+    region          region0;
+    enabled         true;
+    log             false;
+    timeStart       $startTime;
+    timeEnd         $endTime;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+
+    codeOptions
+    #{
+        -I$(LIB_SRC)/OpenFOAM/lnInclude \
+        -I$(LIB_SRC)/finiteVolume/lnInclude
+    #};
+
+    codeExecute
+    #{
+        #include "fvCFD.H"
+
+        //Info<< "EXEC: building divNutSij in registry at t="
+        //    << mesh().time().timeName() << " (region0) for FO: " << this->name() << nl << endl;
+
+        const volTensorField& nutGradU =
+            mesh().lookupObject<volTensorField>("nutGradU");
+
+        tmp<volVectorField> tDiv
+        (
+            new volVectorField
+            (
+                IOobject
+                (
+                    "divNutSij",
+                    mesh().time().timeName(),
+                    mesh(),
+                    IOobject::NO_READ,
+                    IOobject::NO_WRITE   
+                ),
+                fvc::div( symm(nutGradU) )
+            )
+        );
+
+        volVectorField& divFld = tDiv.ref();
+        divFld.correctBoundaryConditions();
+
+        word fldName("divNutSij");
+        this->store(fldName, tDiv, /*writeFlag*/ false);
+
+        //Info<< "  Stored in registry: " << fldName << nl << endl;
+    #};
+}
+
+divNutSijU
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          ( divNutSij U );       
+    result          divNutSijU;           
+    region          region0;
+    enabled         true;
+    log             false;
+    timeStart       $startTime;
+    timeEnd         $endTime;
+    executeControl  timeStep;
+    executeInterval 1;
+    writeControl    none;
+}

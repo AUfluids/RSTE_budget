@@ -1,0 +1,82 @@
+divNutSijMean_UMean
+{
+    type            multiply;
+    libs            ("libfieldFunctionObjects.so");
+    fields          (divNutSijMean UMean);     
+    result          divNutSijMean_UMean;   
+    enabled         true;
+    log             false;
+    timeStart       $startTimeFieldAverage;
+    timeEnd         $endTime;
+    executeControl  adjustableRunTime;
+    executeInterval $writeInterval;
+    writeControl    none;
+}
+
+calcSGS
+{
+    name            calcSGS;
+    type            coded;
+    libs            ("libutilityFunctionObjects.so");
+    enabled         true;
+    log             true;
+    timeStart       $startTimeFieldAverage;
+    timeEnd         $endTime;
+    executeControl  adjustableRunTime;
+    executeInterval $writeInterval;
+    writeControl    adjustableRunTime;
+    writeInterval   $writeInterval;
+    
+    // Basic includes
+    codeOptions
+    #{ -I$(LIB_SRC)/OpenFOAM/lnInclude -I$(LIB_SRC)/finiteVolume/lnInclude #}; 
+
+    // --- Input(s) ---
+    UMeanName                UMean;
+    divNutSijMeanName        divNutSijMean;
+    divNutSijUMeanName    divNutSijUMean;
+
+    // --- Output(s) ---
+    OutputName      SGS_ij_RSTE;
+
+    // Code for calculating SGS term
+    codeWrite
+    #{
+        #include "fvCFD.H"
+
+        // Input-Output namelist
+        const word divNutSijUMeanNameIn   = this->dict().lookupOrDefault<word>("divNutSijUMeanName", "divNutSijUMean");
+        const word divNutSijMean_UMeanNameIn = this->dict().lookupOrDefault<word>("divNutSijMean_UMeanName", "divNutSijMean_UMean");
+        const word sgsOutNm                  = this->dict().lookupOrDefault<word>("OutputName", "SGS_ij_RSTE");
+
+        Info<< "Calculating SGS Term for FO: " << this->name() << " at t=" << mesh().time().timeName() << endl;
+
+        // ----- Reading Input variables ----- //
+    
+        // Lookup divNutSijUMean
+        if (!mesh().foundObject<volTensorField>(divNutSijUMeanNameIn)) { FatalErrorInFunction << "Field " << divNutSijUMeanNameIn << " not found." << exit(FatalError); }
+        const volTensorField& divNutSijUMean = mesh().lookupObject<volTensorField>(divNutSijUMeanNameIn);
+
+        // Lookup divNutSijMean_UMean
+        if (!mesh().foundObject<volTensorField>(divNutSijMean_UMeanNameIn)) { FatalErrorInFunction << "Field " << divNutSijMean_UMeanNameIn << " not found." << exit(FatalError); }
+        const volTensorField& divNutSijMean_UMean = mesh().lookupObject<volTensorField>(divNutSijMean_UMeanNameIn);
+
+        Info<< "  Inputs: " << divNutSijUMean.name() << ", " << divNutSijMean_UMean.name() << endl;
+
+        // ----- Preparing Output ----- //
+
+        // Constructing SGS as a volSymmTensor 
+        volSymmTensorField SGS_ij_RSTE
+        (
+            IOobject(sgsOutNm, mesh().time().timeName(), mesh(), IOobject::NO_READ, IOobject::AUTO_WRITE),
+            2.0 * symm(2.0 * divNutSijUMean) - 2.0 * symm(2.0 * divNutSijMean_UMean)
+        );
+
+        // Writing Output
+        SGS_ij_RSTE.correctBoundaryConditions();
+        SGS_ij_RSTE.write();
+
+        Info<< "  Written field: " << SGS_ij_RSTE.name() << endl;
+        Info<< endl;
+    #};
+}

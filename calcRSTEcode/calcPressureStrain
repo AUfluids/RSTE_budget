@@ -1,0 +1,73 @@
+calcPressureStrainTerm
+{
+    name            calcPressureStrainTerm;
+    type            coded;
+    libs            ("libutilityFunctionObjects.so");
+    enabled         true;
+    log             true;
+    timeStart       $startTimeFieldAverage;
+    timeEnd         $endTime;
+    executeControl  adjustableRunTime;
+    executeInterval $writeInterval;
+    writeControl    adjustableRunTime;
+    writeInterval   $writeInterval;
+
+    codeOptions     #{ -I$(LIB_SRC)/OpenFOAM/lnInclude -I$(LIB_SRC)/finiteVolume/lnInclude #};
+
+    codeWrite
+    #{
+        #include "fvCFD.H"
+
+        // Field names
+        const word UMeanName      = "UMean";
+        const word pMeanName      = "pMean";
+        const word pGradUMeanName = "pGradUMean";
+        const word outputPhiij    = "Phi_ij_RSTE";        
+        
+        Info<< "Calculating Pressure-Strain (from means) Term for FO: " << this->name() << " at t=" << mesh().time().timeName() << endl;
+
+        // Loading UMean
+        if (!mesh().foundObject<volVectorField>(UMeanName))
+        {
+            FatalErrorInFunction << "Input field " << UMeanName << " not found for FO " << this->name() << "."
+                << exit(FatalError);
+        }
+        const volVectorField& UMean = mesh().lookupObject<volVectorField>(UMeanName);
+        Info<< "  Using input UMean field: " << UMean.name() << endl;
+
+        // Loading pMean
+        if (!mesh().foundObject<volScalarField>(pMeanName))
+        {
+            FatalErrorInFunction << "Input field " << pMeanName << " not found for FO " << this->name() << "."
+                << exit(FatalError);
+        }
+        const volScalarField& pMean = mesh().lookupObject<volScalarField>(pMeanName);
+        Info<< "  Using input pMean field: " << pMean.name() << endl;
+
+        // Loading pGradUMean
+        if (!mesh().foundObject<volTensorField>(pGradUMeanName))
+        {
+            FatalErrorInFunction << "Input field " << pGradUMeanName << " not found for FO " << this->name() << "."
+                << exit(FatalError);
+        }
+        const volTensorField& pGradUMean = mesh().lookupObject<volTensorField>(pGradUMeanName);
+        Info<< "  Using input pGradUMean field: " << pGradUMean.name() << endl;
+
+
+        Info<< "  Calculating Sij_mean = symm(fvc::grad(UMean))" << endl;
+        volSymmTensorField Sij_mean = symm(fvc::grad(UMean));
+
+        Info<< "  Calculating pSij_mean = symm(pGradUMean)" << endl;
+        volSymmTensorField pSij_mean = symm(pGradUMean);
+
+        Info<< "  Calculating " << outputPhiij << " = pMean * Sij_mean" << endl;
+        volSymmTensorField Phiij (IOobject(outputPhiij, mesh().time().timeName(), mesh(), IOobject::NO_READ, IOobject::AUTO_WRITE),
+            2.0 * (pSij_mean - pMean * Sij_mean));
+
+        Phiij.correctBoundaryConditions();
+        Phiij.write();
+    
+        Info << "  Written symmTensor field: " << Phiij.name() << endl;
+        Info<< endl;
+    #};
+}
