@@ -14,6 +14,7 @@ This repository provides a validated implementation of all terms in the Reynolds
 - **Cartesian Coordinates**: Full implementation in Cartesian coordinate system
 - **TKE Budget**: Automatic calculation of Turbulent Kinetic Energy budget
 - **SGS Contributions**: Subgrid-scale term calculations for LES - used as a residual term value
+- **DNS Compatibility**: Can be run in DNS mode (not recommended) by setting turbulence model to "laminar"
 - **Memory Efficient**: Optimised field calculations using OpenFOAM utilities
 - **Parallel Support**: Full parallel computation support with HPC considerations
 
@@ -64,7 +65,7 @@ This repository provides a validated implementation of all terms in the Reynolds
    ```bash
    cd examples/channel_flow_Re_tau_180
    ```
-
+   
 2. **Run the simulation**:
    ```bash
    # Make the script executable
@@ -135,7 +136,7 @@ RSTE_budget/
 ### Integration with Your Case
 
 1. **Copy RSTE codes**:
-   ```bash
+```bash
    cp -r calcRSTEcode/ /path/to/your/case/system/
    ```
 
@@ -168,6 +169,21 @@ RSTE_budget/
    # Parallel execution
    mpirun -np 4 pimpleFoam -parallel
    ```
+
+### DNS Mode (Not Recommended)
+
+The RSTE budget calculation can also be run in DNS mode, although this is not recommended for most applications. To run in DNS mode:
+
+1. **Set turbulence model to laminar**:
+   ```cpp
+   // In constant/turbulenceProperties
+   simulationType  laminar;
+   ```
+
+2. **Run the simulation**:
+   The same execution commands apply, but the SGS terms will be zero since no subgrid-scale model is active.
+
+**Note**: DNS mode is primarily useful for validation purposes or when comparing with DNS data, but requires significantly higher computational resources and finer meshes.
 
 ### HPC Considerations
 
@@ -314,6 +330,7 @@ To adapt for your own cases:
 - **Additional Terms**: Implementation of additional turbulence terms
 - **Validation**: New validation cases and comparisons
 - **Documentation**: Improved user guides and examples
+- **OpenFOAM Library**: Future implementation as a proper OpenFOAM library to avoid per-case compilation
 
 ## License
 
