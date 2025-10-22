@@ -263,8 +263,11 @@ The included channel flow example demonstrates:
 - **Setup**: Complete OpenFOAM case configuration
 - **Mesh**: Structured hexahedral mesh with wall refinement
 - **Solver**: pimpleFoam with WALE SGS model
+- **Initial Conditions**: Plug-flow with necessary perturbations to trigger turbulence
 - **Analysis**: Complete RSTE budget calculation
 - **Visualisation**: Post-processing scripts and results
+
+**Important Note**: Since the simulation starts from plug-flow conditions, a certain initial perturbation of the flow is necessary to onset turbulence and obtain a fully-developed turbulent channel flow. The example case DOES NOT includes appropriate initial perturbations to ensure proper turbulent development.
 
 ### Running the Example
 
