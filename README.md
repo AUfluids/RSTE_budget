@@ -33,7 +33,7 @@ This repository provides a validated implementation of all terms in the Reynolds
 
 ### Prerequisites
 
-- OpenFOAM (tested with recent versions)
+- OpenFOAM (tested with recent version OpenFOAM-v2506)
 - Git (for version control)
 - Python 3.x (for parameter setup scripts)
 
