@@ -12,7 +12,6 @@ This repository provides a validated implementation of all terms in the Reynolds
 - **Validated Implementation**: Rigorously tested against DNS data for canonical flows
 - **OpenFOAM Integration**: Seamless integration with OpenFOAM's function object framework
 - **Cartesian Coordinates**: Full implementation in Cartesian coordinate system
-- **TKE Budget**: Automatic calculation of Turbulent Kinetic Energy budget
 - **SGS Contributions**: Subgrid-scale term calculations for LES - used as a residual term value
 - **DNS Compatibility**: Can be run in DNS mode (not recommended) by setting turbulence model to "laminar"
 - **Memory Efficient**: Optimised field calculations using OpenFOAM utilities
