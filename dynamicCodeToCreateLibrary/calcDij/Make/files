@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = 5485f91b04b9ad1e58bf5bbbdeb48ad89875cbec
+ */
+functionObjectTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcDij_5485f91b04b9ad1e58bf5bbbdeb48ad89875cbec

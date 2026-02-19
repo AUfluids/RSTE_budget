@@ -1,0 +1,330 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+    Copyright (C) 2019-2021 OpenCFD Ltd.
+    Copyright (C) YEAR AUTHOR, AFFILIATION
+-------------------------------------------------------------------------------
+License
+    This file is part of OpenFOAM.
+
+    OpenFOAM is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with OpenFOAM.  If not, see <http://www.gnu.org/licenses/>.
+
+\*---------------------------------------------------------------------------*/
+
+#include "functionObjectTemplate.H"
+#define namespaceFoam  // Suppress <using namespace Foam;>
+#include "fvCFD.H"
+#include "unitConversion.H"
+#include "addToRunTimeSelectionTable.H"
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+namespace Foam
+{
+
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+defineTypeNameAndDebug(calcDissipationTermFunctionObject, 0);
+
+addRemovableToRunTimeSelectionTable
+(
+    functionObject,
+    calcDissipationTermFunctionObject,
+    dictionary
+);
+
+
+// * * * * * * * * * * * * * * * Global Functions  * * * * * * * * * * * * * //
+
+// dynamicCode:
+// SHA1 = cfc19685d2825d0544270ace626f074fbdd67a87
+//
+// unique function name that can be checked if the correct library version
+// has been loaded
+extern "C" void calcDissipationTerm_cfc19685d2825d0544270ace626f074fbdd67a87(bool load)
+{
+    if (load)
+    {
+        // Code that can be explicitly executed after loading
+    }
+    else
+    {
+        // Code that can be explicitly executed before unloading
+    }
+}
+
+
+// * * * * * * * * * * * * * * * Local Functions * * * * * * * * * * * * * * //
+
+//{{{ begin localCode
+
+//}}} end localCode
+
+} // End namespace Foam
+
+
+// * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
+
+const Foam::fvMesh&
+Foam::calcDissipationTermFunctionObject::mesh() const
+{
+    return refCast<const fvMesh>(obr_);
+}
+
+
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+
+Foam::
+calcDissipationTermFunctionObject::
+calcDissipationTermFunctionObject
+(
+    const word& name,
+    const Time& runTime,
+    const dictionary& dict
+)
+:
+    functionObjects::regionFunctionObject(name, runTime, dict)
+{
+    read(dict);
+}
+
+
+// * * * * * * * * * * * * * * * * Destructor  * * * * * * * * * * * * * * * //
+
+Foam::
+calcDissipationTermFunctionObject::
+~calcDissipationTermFunctionObject()
+{}
+
+
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+
+bool
+Foam::
+calcDissipationTermFunctionObject::read(const dictionary& dict)
+{
+    if (false)
+    {
+        printMessage("read calcDissipationTerm");
+    }
+
+//{{{ begin code
+    
+//}}} end code
+
+    return true;
+}
+
+
+bool
+Foam::
+calcDissipationTermFunctionObject::execute()
+{
+    if (false)
+    {
+        printMessage("execute calcDissipationTerm");
+    }
+
+//{{{ begin code
+    
+//}}} end code
+
+    return true;
+}
+
+
+bool
+Foam::
+calcDissipationTermFunctionObject::write()
+{
+    if (false)
+    {
+        printMessage("write calcDissipationTerm");
+    }
+
+//{{{ begin code
+    #line 29 "/home/au540668/OpenFOAM/au540668-v2412/run/WRLES/channelCases/Ret_180/casesUBulk/L2/system/controlDict/functions/calcDissipationTerm"
+#include "fvCFD.H"
+
+        // Field names
+        const word gradUName      = "gradUMean";        
+        const word dUxxdUxxName   = "gradUxxgradUxxMean";
+        const word dUyxdUyxName   = "gradUyxgradUyxMean";
+        const word dUzxdUzxName   = "gradUzxgradUzxMean";
+        const word dUxxdUxyName   = "gradUxxgradUxyMean";
+        const word dUyxdUyyName   = "gradUyxgradUyyMean";
+        const word dUzxdUzyName   = "gradUzxgradUzyMean";
+        const word dUxxdUxzName   = "gradUxxgradUxzMean";
+        const word dUyxdUyzName   = "gradUyxgradUyzMean";
+        const word dUzxdUzzName   = "gradUzxgradUzzMean";
+        const word dUxydUxyName   = "gradUxygradUxyMean";
+        const word dUyydUyyName   = "gradUyygradUyyMean";
+        const word dUzydUzyName   = "gradUzygradUzyMean";
+        const word dUxydUxzName   = "gradUxygradUxzMean";
+        const word dUyydUyzName   = "gradUyygradUyzMean";
+        const word dUzydUzzName   = "gradUzygradUzzMean";
+        const word dUxzdUxzName   = "gradUxzgradUxzMean";
+        const word dUyzdUyzName   = "gradUyzgradUyzMean";
+        const word dUzzdUzzName   = "gradUzzgradUzzMean";
+        const word outputeps_ij   = "eps_ij_RSTE";
+
+        Info << "Calculating turbulent transport tensor field: " << outputeps_ij
+            << " for FO: " << this->name() << " at t=" << mesh().time().timeName() << endl;
+
+        // Lookup input fields
+        const volTensorField& gradUMean          = mesh().lookupObject<volTensorField>(gradUName);
+        const volScalarField& gradUxxgradUxxMean = mesh().lookupObject<volScalarField>(dUxxdUxxName);
+        const volScalarField& gradUyxgradUyxMean = mesh().lookupObject<volScalarField>(dUyxdUyxName);
+        const volScalarField& gradUzxgradUzxMean = mesh().lookupObject<volScalarField>(dUzxdUzxName);
+        const volScalarField& gradUxxgradUxyMean = mesh().lookupObject<volScalarField>(dUxxdUxyName);
+        const volScalarField& gradUyxgradUyyMean = mesh().lookupObject<volScalarField>(dUyxdUyyName);
+        const volScalarField& gradUzxgradUzyMean = mesh().lookupObject<volScalarField>(dUzxdUzyName);
+        const volScalarField& gradUxxgradUxzMean = mesh().lookupObject<volScalarField>(dUxxdUxzName);
+        const volScalarField& gradUyxgradUyzMean = mesh().lookupObject<volScalarField>(dUyxdUyzName);
+        const volScalarField& gradUzxgradUzzMean = mesh().lookupObject<volScalarField>(dUzxdUzzName);
+        const volScalarField& gradUxygradUxyMean = mesh().lookupObject<volScalarField>(dUxydUxyName);
+        const volScalarField& gradUyygradUyyMean = mesh().lookupObject<volScalarField>(dUyydUyyName);
+        const volScalarField& gradUzygradUzyMean = mesh().lookupObject<volScalarField>(dUzydUzyName);
+        const volScalarField& gradUxygradUxzMean = mesh().lookupObject<volScalarField>(dUxydUxzName);
+        const volScalarField& gradUyygradUyzMean = mesh().lookupObject<volScalarField>(dUyydUyzName);
+        const volScalarField& gradUzygradUzzMean = mesh().lookupObject<volScalarField>(dUzydUzzName);
+        const volScalarField& gradUxzgradUxzMean = mesh().lookupObject<volScalarField>(dUxzdUxzName);
+        const volScalarField& gradUyzgradUyzMean = mesh().lookupObject<volScalarField>(dUyzdUyzName);
+        const volScalarField& gradUzzgradUzzMean = mesh().lookupObject<volScalarField>(dUzzdUzzName);
+        
+        // Extracting components of input data
+        const scalarField gradUxx = gradUMean.component(tensor::XX);
+        const scalarField gradUxy = gradUMean.component(tensor::XY);
+        const scalarField gradUxz = gradUMean.component(tensor::XY);
+        const scalarField gradUyx = gradUMean.component(tensor::YX);
+        const scalarField gradUyy = gradUMean.component(tensor::YY);
+        const scalarField gradUyz = gradUMean.component(tensor::YZ);
+        const scalarField gradUzx = gradUMean.component(tensor::ZX);
+        const scalarField gradUzy = gradUMean.component(tensor::ZY);
+        const scalarField gradUzz = gradUMean.component(tensor::ZZ);
+        const scalarField dUxxdUxx = gradUxxgradUxxMean.internalField();
+        const scalarField dUyxdUyx = gradUyxgradUyxMean.internalField();
+        const scalarField dUzxdUzx = gradUzxgradUzxMean.internalField();
+        const scalarField dUxxdUxy = gradUxxgradUxyMean.internalField();
+        const scalarField dUyxdUyy = gradUyxgradUyyMean.internalField();
+        const scalarField dUzxdUzy = gradUzxgradUzyMean.internalField();
+        const scalarField dUxxdUxz = gradUxxgradUxzMean.internalField();
+        const scalarField dUyxdUyz = gradUyxgradUyzMean.internalField();
+        const scalarField dUzxdUzz = gradUzxgradUzzMean.internalField();
+        const scalarField dUxydUxy = gradUxygradUxyMean.internalField();
+        const scalarField dUyydUyy = gradUyygradUyyMean.internalField();
+        const scalarField dUzydUzy = gradUzygradUzyMean.internalField();
+        const scalarField dUxydUxz = gradUxygradUxzMean.internalField();
+        const scalarField dUyydUyz = gradUyygradUyzMean.internalField();
+        const scalarField dUzydUzz = gradUzygradUzzMean.internalField();
+        const scalarField dUxzdUxz = gradUxzgradUxzMean.internalField();
+        const scalarField dUyzdUyz = gradUyzgradUyzMean.internalField();
+        const scalarField dUzzdUzz = gradUzzgradUzzMean.internalField();
+
+        // Kinematic viscosity
+        const dictionary& transportProps = mesh().lookupObject<IOdictionary>("transportProperties");
+        const dimensionedScalar nu = transportProps.get<dimensionedScalar>("nu");
+
+        // ---------- Build full Tensor ---------- //  
+        
+        volSymmTensorField eps_ij (IOobject(outputeps_ij, mesh().time().timeName(), mesh(), IOobject::NO_READ, IOobject::AUTO_WRITE),
+                                   mesh(), dimensionedSymmTensor("zero", dimensionSet(0 ,2 ,-3 ,0 ,0 ,0 ,0), symmTensor::zero));
+
+        symmTensorField& eps_ij_Field = eps_ij.ref();
+
+        forAll(eps_ij_Field, i)
+        {
+            // eps_xx calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].xx() = 2.0 * nu.value() * ( (dUxxdUxx[i] + dUxydUxy[i] + dUxzdUxz[i]) 
+            //                                          - (gradUxx[i] * gradUxx[i] + gradUxy[i] * gradUxy[i] + gradUxz[i] * gradUxz[i]) );
+            
+            // eps_xx calculation - new
+            eps_ij_Field[i].xx() = 2.0 * nu.value() * ( (dUxxdUxx[i] + dUyxdUyx[i] + dUzxdUzx[i]) 
+                                                      - (gradUxx[i] * gradUxx[i] + gradUyx[i] * gradUyx[i] + gradUzx[i] * gradUzx[i]) );
+
+            // eps_xy calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].xy() = 2.0 * nu.value() * ( (dUxxdUyx[i] + dUxydUyy[i] + dUxzdUyz[i]) 
+            //                                          - (gradUxx[i] * gradUyx[i] + gradUxy[i] * gradUyy[i] + gradUxz[i] * gradUyz[i]) );
+
+            // eps_xy calculation - new
+            eps_ij_Field[i].xy() = 2.0 * nu.value() * ( (dUxxdUxy[i] + dUyxdUyy[i] + dUzxdUzy[i]) 
+                                                      - (gradUxx[i] * gradUxy[i] + gradUyx[i] * gradUyy[i] + gradUzx[i] * gradUzy[i]) );
+
+            // eps_xz calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].xz() = 2.0 * nu.value() * ( (dUxxdUzx[i] + dUxydUzy[i] + dUxzdUzz[i]) 
+            //                                          - (gradUxx[i] * gradUzx[i] + gradUxy[i] * gradUzy[i] + gradUxz[i] * gradUzz[i]) );
+
+            // eps_xz calculation - new
+            eps_ij_Field[i].xz() = 2.0 * nu.value() * ( (dUxxdUxz[i] + dUyxdUyz[i] + dUzxdUzz[i]) 
+                                                      - (gradUxx[i] * gradUxz[i] + gradUyx[i] * gradUyz[i] + gradUzx[i] * gradUzz[i]) );
+
+            // eps_yy calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].yy() = 2.0 * nu.value() * ( (dUyxdUyx[i] + dUyydUyy[i] + dUyzdUyz[i]) 
+            //                                          - (gradUyx[i] * gradUyx[i] + gradUyy[i] * gradUyy[i] + gradUyz[i] * gradUyz[i]) );
+
+            // eps_yy calculation - new
+            eps_ij_Field[i].yy() = 2.0 * nu.value() * ( (dUxydUxy[i] + dUyydUyy[i] + dUzydUzy[i]) 
+                                                      - (gradUxy[i] * gradUxy[i] + gradUyy[i] * gradUyy[i] + gradUzy[i] * gradUzy[i]) );
+
+            // eps_yz calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].yz() = 2.0 * nu.value() * ( (dUyxdUzx[i] + dUyydUzy[i] + dUyzdUzz[i]) 
+            //                                          - (gradUyx[i] * gradUzx[i] + gradUyy[i] * gradUzy[i] + gradUyz[i] * gradUzz[i]) );
+
+            // eps_yz calculation - new
+            eps_ij_Field[i].yz() = 2.0 * nu.value() * ( (dUxydUxz[i] + dUyydUyz[i] + dUzydUzz[i]) 
+                                                      - (gradUxy[i] * gradUxz[i] + gradUyy[i] * gradUyz[i] + gradUzy[i] * gradUzz[i]) );                                                      
+
+            // eps_zz calculation - old, based on wrong ordering of gradU components
+            //eps_ij_Field[i].zz() = 2.0 * nu.value() * ( (dUzxdUzx[i] + dUzydUzy[i] + dUzzdUzz[i]) 
+            //                                          - (gradUzx[i] * gradUzx[i] + gradUzy[i] * gradUzy[i] + gradUzz[i] * gradUzz[i]) );
+                                        
+            // eps_zz calculation - new
+            eps_ij_Field[i].zz() = 2.0 * nu.value() * ( (dUxzdUxz[i] + dUyzdUyz[i] + dUzzdUzz[i]) 
+                                                      - (gradUxz[i] * gradUxz[i] + gradUyz[i] * gradUyz[i] + gradUzz[i] * gradUzz[i]) );                                                      
+        }
+
+        eps_ij.correctBoundaryConditions();
+        eps_ij.write();
+
+        Info << "  Written Tensor field: " << eps_ij.name() << endl;
+        Info<< endl;
+//}}} end code
+
+    return true;
+}
+
+
+bool
+Foam::
+calcDissipationTermFunctionObject::end()
+{
+    if (false)
+    {
+        printMessage("end calcDissipationTerm");
+    }
+
+//{{{ begin code
+    
+//}}} end code
+
+    return true;
+}
+
+
+// ************************************************************************* //
+
