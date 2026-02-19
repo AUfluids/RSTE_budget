@@ -1,23 +1,52 @@
-/*
-##########################################################################################
+/*---------------------------------------------------------------------------*\
+License
+    This file is part of RSTE_budget.
 
-General Information:
-    This script is part of the "NAME of RSTE library" library... general info...
+    RSTE_budget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-##########################################################################################
+    RSTE_budget is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
 
-Script Information:
-    This script containts the fieldAverage functions used for the "NAME of RSTE library".
+    You should have received a copy of the GNU General Public License
+    along with RSTE_budget. 
+    If not, see <http://www.gnu.org/licenses/>.
+/*---------------------------------------------------------------------------*\
 
+FunctionObjects
+    Foam::fieldAverage
+
+Description
+    Field averaging configuration for RSTE budget calculations.
+    
     Two fieldAverage instances are used:
-        - fieldAverageRSTE_write:      This contains fields which are written out.
-        - fieldAverageRSTE_dont_write: This contains fields which are not written out.
+    - fieldAverageRSTE_write:     Fields which are written out (UMean, pMean, UPrime2Mean)
+    - fieldAverageRSTE_dont_write: Intermediate fields not written out (triple products, gradient products)
 
-    Items can be moved from one fieldAverage to the other, no items can be removed,
-    and any dublications between the twi fieldAverage should also be avoided.        
+Fields averaged
+    - Mean velocity (UMean) and Reynolds stresses (UPrime2Mean) - written
+    - Pressure gradients, velocity-pressure products, triple correlations, gradient products - internal use
 
-##########################################################################################
-*/
+Example usage in controlDict:
+\verbatim
+functions
+{
+    #include "calcRSTEcode/fieldAverageRSTE"
+}
+\endverbatim
+
+SourceFile
+    fieldAverageRSTE
+
+Authors
+    2025  Christoffer Hansen & Mario Javier Rincon
+
+\*---------------------------------------------------------------------------*/
+
 
 fieldAverageRSTE_write
 {

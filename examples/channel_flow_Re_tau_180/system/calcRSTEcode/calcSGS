@@ -1,3 +1,70 @@
+/*---------------------------------------------------------------------------*\
+License
+    This file is part of RSTE_budget.
+
+    RSTE_budget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    RSTE_budget is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with RSTE_budget. 
+    If not, see <http://www.gnu.org/licenses/>.
+/*---------------------------------------------------------------------------*\
+
+FunctionObject
+    Foam::calcSGS
+
+Description
+    Computes the subgrid-scale (SGS) stress tensor term SGS_ij_RSTE for LES-RSM budgets
+
+Fields required
+    - divNutSijUMean       : Divergence term from LES model (volTensorField)
+    - divNutSijMean_UMean  : Mean SGS divergence term (volTensorField)
+
+Fields written
+    - SGS_ij_RSTE          : Subgrid-scale tensor (volSymmTensorField)
+
+Preceding field operation:
+\verbatim
+divNutSijMean_UMean
+{
+    type        multiply;
+    libs        ("libfieldFunctionObjects.so");
+    fields      (divNutSijMean UMean);     
+    result      divNutSijMean_UMean;    
+    enabled     true;
+    log         false;
+    timeStart   $startTimeFieldAverage;
+    timeEnd     $endTime;
+    executeControl adjustableRunTime;
+    executeInterval $writeInterval;
+    writeControl none;
+}
+\endverbatim
+
+Example usage in controlDict:
+\verbatim
+functions
+{
+    #include "calcRSTEcode/divNutSijMean_UMean"
+    #include "calcRSTEcode/calcSGS"
+}
+\endverbatim
+
+SourceFile
+    calcSGS
+
+Authors
+    2025  Christoffer Hansen & Mario Javier Rincon
+
+\*---------------------------------------------------------------------------*/
+
 divNutSijMean_UMean
 {
     type            multiply;
