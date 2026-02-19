@@ -13,7 +13,7 @@ This repository provides a validated implementation of all terms in the Reynolds
 - **OpenFOAM Integration**: Seamless integration with OpenFOAM's function object framework
 - **Cartesian Coordinates**: Full implementation in Cartesian coordinate system
 - **SGS Contributions**: Subgrid-scale term calculations for LES - used as a residual term value
-- **DNS Compatibility**: Can be run in DNS mode (not recommended) by setting turbulence model to "laminar"
+- **DNS Compatibility**: Can be run in DNS mode by setting turbulence model to "laminar"
 - **Memory Efficient**: Optimised field calculations using OpenFOAM utilities
 - **Parallel Support**: Full parallel computation support with HPC considerations
 
@@ -130,7 +130,7 @@ RSTE_budget/
 └── README.md                       # This file
 ```
 
-## 🔧 Usage
+## Usage
 
 ### Integration with Your Case
 
@@ -169,9 +169,9 @@ RSTE_budget/
    mpirun -np 4 pimpleFoam -parallel
    ```
 
-### DNS Mode (Not Recommended)
+### DNS Mode
 
-The RSTE budget calculation can also be run in DNS mode, although this is not recommended for most applications. To run in DNS mode:
+The RSTE budget calculation can also be run in DNS mode. To run in DNS mode:
 
 1. **Set turbulence model to laminar**:
    ```cpp
