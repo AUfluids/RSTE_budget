@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = cfc19685d2825d0544270ace626f074fbdd67a87
- */
-functionObjectTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcDissipationTerm_cfc19685d2825d0544270ace626f074fbdd67a87

@@ -1,1 +1,0 @@
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcProduction_0158b4e6ecd11ee2365edde8b0df226483c74425

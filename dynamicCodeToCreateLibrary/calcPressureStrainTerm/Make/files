@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = 4792976e08e7ed5d145394b349c344fc7714027b
- */
-functionObjectTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcPressureStrainTerm_4792976e08e7ed5d145394b349c344fc7714027b

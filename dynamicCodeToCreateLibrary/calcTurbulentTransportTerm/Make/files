@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = f93081a9b9cf6aa07e2570837bb145bcfafaf89c
- */
-functionObjectTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcTurbulentTransportTerm_f93081a9b9cf6aa07e2570837bb145bcfafaf89c

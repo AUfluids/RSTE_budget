@@ -1,6 +1,0 @@
-/* dynamicCode:
- * SHA1 = f80c8ad2b64925e9fc32c424e676a62d73cb56b8
- */
-functionObjectTemplate.C
-
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcConvection_f80c8ad2b64925e9fc32c424e676a62d73cb56b8

@@ -1,1 +1,0 @@
-LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libcalcPressureDiffusionTerm_85c7d85c22556eb45ea58acc8d79ed80768f4c08
