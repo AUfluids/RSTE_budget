@@ -1,24 +1,44 @@
-/*
-##########################################################################################
+/*---------------------------------------------------------------------------*\
+License
+    This file is part of RSTE_budget.
 
-General Information:
-    This script is part of the "NAME of RSTE library" library... general info...
+    RSTE_budget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-##########################################################################################
+    RSTE_budget is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
 
-Script Information:
-    This script containts auxiliary functions used for the "NAME of RSTE library".
+    You should have received a copy of the GNU General Public License
+    along with RSTE_budget. 
+    If not, see <http://www.gnu.org/licenses/>.
+\*---------------------------------------------------------------------------*/
 
-    The functions include:
-        - Functions for calculating velocity pressure product (Pressure Diffusion).
-        - Functions for calculating triple velocity products (Turbulent Transport).
-        - Functions for calculating products of velocity gradients (Dissipation).        
+Class
+    Foam::RSTEauxiliaryFunctions
 
-##########################################################################################
-*/
+Description
+    Auxiliary functions for the Reynolds stress transport equation (RSTE)
+    budget library, providing reusable building blocks for budget term evaluation.
+
+Functions included
+    - Pressure diffusion (velocity–pressure products, D_p,ij)
+    - Turbulent transport (triple velocity products)
+    - Dissipation (products of velocity gradients)
+
+SourceFile
+    RSTEauxiliaryFunctions.C
+
+Authors
+    2025  Christoffer Hansen & Mario Javier Rincon
+
+\*---------------------------------------------------------------------------*/
 
 //--------------------------------------------------------------------------------//
-// Functions for the Pressure Diffusion Dp_ij
+// Functions for the Pressure Diffusion D_p,ij
 //--------------------------------------------------------------------------------//
 
 Up
