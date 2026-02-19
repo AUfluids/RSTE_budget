@@ -169,7 +169,7 @@ RSTE_budget/
    mpirun -np 4 pimpleFoam -parallel
    ```
 
-### DNS Mode (Not Recommended)
+### DNS Mode
 
 The RSTE budget calculation can also be run in DNS mode. To run in DNS mode:
 
