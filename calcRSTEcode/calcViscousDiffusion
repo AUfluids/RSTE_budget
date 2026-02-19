@@ -1,3 +1,51 @@
+/*---------------------------------------------------------------------------*\
+License
+    This file is part of RSTE_budget.
+
+    RSTE_budget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    RSTE_budget is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with RSTE_budget. 
+    If not, see <http://www.gnu.org/licenses/>.
+/*---------------------------------------------------------------------------*\
+
+FunctionObject
+    Foam::calcViscousDiffusionTerm
+
+Description
+    Computes the viscous diffusion tensor term D_ij_RSTE with wall boundary treatment
+
+Fields required
+    - UPrime2Mean      : Reynolds stress tensor field (volSymmTensorField)
+    - transportProperties : Transport properties dictionary
+
+Fields written
+    - D_ij_RSTE        : Viscous diffusion tensor (volSymmTensorField)
+
+Example usage in controlDict:
+\verbatim
+functions
+{
+    #include "calcRSTEcode/calcViscousDiffusionTerm"
+}
+\endverbatim
+
+SourceFile
+    calcViscousDiffusionTerm
+
+Authors
+    2025  Christoffer Hansen & Mario Javier Rincon
+
+\*---------------------------------------------------------------------------*/
+
 calcViscousDiffusionTerm
 {
     type            coded;

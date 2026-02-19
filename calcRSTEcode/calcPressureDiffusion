@@ -1,3 +1,52 @@
+/*---------------------------------------------------------------------------*\
+License
+    This file is part of RSTE_budget.
+
+    RSTE_budget is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    RSTE_budget is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with RSTE_budget. 
+    If not, see <http://www.gnu.org/licenses/>.
+/*---------------------------------------------------------------------------*\
+
+FunctionObject
+    Foam::calcPressureDiffusionTerm
+
+Description
+    Computes the pressure diffusion tensor term Dp_ij_RSTE from velocity-pressure gradient
+
+Fields required
+    - UMean            : Mean velocity field (volVectorField)
+    - pMean            : Mean pressure field (volScalarField) 
+    - UpMean           : Velocity-pressure correlation field (volVectorField)
+
+Fields written
+    - Dp_ij_RSTE       : Pressure diffusion tensor (volSymmTensorField)
+
+Example usage in controlDict:
+\verbatim
+functions
+{
+    #include "calcRSTEcode/calcPressureDiffusionTerm"
+}
+\endverbatim
+
+SourceFile
+    calcPressureDiffusionTerm
+
+Authors
+    2025  Christoffer Hansen & Mario Javier Rincon
+
+\*---------------------------------------------------------------------------*/
+
 calcPressureDiffusionTerm
 {
     name            calcPressureDiffusionTerm;
