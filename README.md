@@ -349,7 +349,7 @@ This project is licensed under the Creative Commons License - see the [LICENSE](
 
 ## References
 
-- Rincón, M. J., Hansen, C., Reclari, M., & Abkar, M. (2025). Implementation and verification of the Reynolds stress transport equations in OpenFOAM. *OpenFOAM Journal*, UNDER REVIEW.
+- Rincón, M. J., Hansen, C., Reclari, M., & Abkar, M. (2026). Implementation and A-posteriori Validation of the Resolved Reynolds Stress Transport Equations in OpenFOAM®. *OpenFOAM® Journal*, 6:79-98.
 - Lee, M. & Moser, R.D. (2015). Direct numerical simulation of turbulent channel flow up to Re_τ ≈ 5200. *Journal of Fluid Mechanics*, 774, 395-415.
 - El Khoury, G.K., Schlatter, P., Noorani, A., Fischer, P.F., & Brethouwer, G. (2013). Direct numerical simulation of turbulent pipe flow at moderately high Reynolds numbers. *Flow, Turbulence and Combustion*, 91(3), 475-495.
 - Pope, S.B. (2000). *Turbulent Flows*. Cambridge University Press.
